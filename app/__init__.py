@@ -2,6 +2,7 @@
 # third-party imports
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
+from flask_assets import Environment, Bundle
 
 # local imports
 from config import app_config
@@ -15,6 +16,15 @@ def create_app(config_name):
     app.config.from_object(app_config[config_name])
     app.config.from_pyfile('config.py')
     db.init_app(app)
+
+    # setup assets environments
+    assets = Environment(app)
+
+    # compile & combine all sass files into one css file.
+    scss = Bundle('scss/foo.scss', 'scss/bar.scss', filters='pyscss', output='css/style.css')
+
+    # register the new css file so we can use in templates.
+    assets.register('scss_all', scss)
 
     from .home import home as home_blueprint
     app.register_blueprint(home_blueprint)
