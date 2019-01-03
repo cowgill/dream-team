@@ -4,6 +4,8 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_assets import Environment, Bundle
 
+from .views.home import home
+
 # local imports
 from config import app_config
 
@@ -26,8 +28,8 @@ def create_app(config_name):
     # register the new css file so we can use in templates.
     assets.register('scss_all', scss)
 
-    from .home import home as home_blueprint
-    app.register_blueprint(home_blueprint)
+    # register the blueprints
+    app.register_blueprint(home)
 
     @app.errorhandler(403)
     def forbidden(error):

@@ -1,7 +1,8 @@
-from flask import render_template
+from flask import Blueprint, render_template
+
 #from flask_login import login_required
 
-from . import home
+home = Blueprint('home', __name__)
 
 
 @home.route('/')
